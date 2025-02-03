@@ -31,6 +31,6 @@ sequenceDiagram
     Note right of browser: The browser sends the note to the server
     
     server-->>browser: [{"content": Your note, "date": The date of the note}]
-    Note right of browser: The browser shows the new note
+    Note right of browser: The browser reload the page and shows the new note.
     
 ```
