@@ -31,6 +31,18 @@ const App = () => {
   }, [])
   //console.log('render', persons.length, 'persons')
 
+  const deletePerson = (id) =>{
+    const person = persons.find(p=>p.id===id)
+    if(window.confirm(`Delete ${person.name} ?`)){
+    personService
+      .elim(id=id)
+      .then(setPersons(persons.filter(p=>p!==person))
+      )
+    //console.log(`the person with the id: ${id} need to be deleted`)
+    }
+  }
+
+
   const addPerson = (event) => {
     event.preventDefault()
     const personObject = {
@@ -57,7 +69,7 @@ const App = () => {
       <h2>Add a new</h2>
         <PersonForm onSubmit={addPerson} nameValue={newName} nameOnChange={handlePersonChange} numberValue={newNumber} numberOnChange={handleNumberChange}/>
       <h2>Numbers</h2>
-        <Persons persons={persons} filt={filt}/>
+        <Persons persons={persons} filt={filt} deletePerson={deletePerson}/>
     </div>
   )
 }
