@@ -5,12 +5,14 @@ import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
 import personService from './services/persons'
 import Notification from './components/Notification'
-
+import './styles.css'
 const App = () => {
   const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const[filt, setNewFilt]=useState('')
+  const[successfulMessage, setSuccessfulMesage] = useState(null)
+
   const handleFiltChange=(event)=>{
     //console.log(event.target.change)
     setNewFilt(event.target.value)
@@ -59,6 +61,12 @@ const App = () => {
           .update(existingPerson.id, personObject)
           .then(returnedPerson=>{
             setPersons(persons.map(p=>p.id !== existingPerson.id ? p : returnedPerson))
+            setSuccessfulMesage(
+              `Changed ${personObject.name}'s number`
+            )
+            setTimeout(()=>{
+              setSuccessfulMesage(null)
+            },5000)
           })
         }
       }
@@ -75,11 +83,18 @@ const App = () => {
           setNewName('')
           setNewNumber('')
         })
+        setSuccessfulMesage(
+          `Added ${personObject.name} `
+        )
+        setTimeout(()=>{
+          setSuccessfulMesage(null)
+        },5000)
       }
     }
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={successfulMessage} />
         <Filter filt={filt} handleFiltChange={handleFiltChange}/>
       <h2>Add a new</h2>
         <PersonForm onSubmit={addPerson} nameValue={newName} nameOnChange={handlePersonChange} numberValue={newNumber} numberOnChange={handleNumberChange}/>
